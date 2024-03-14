@@ -6,6 +6,7 @@ export default function OrderHeader({
   selectedIngredients = [],
   onReset,
 }) {
+  
   const isEmptySelectedIngredients = selectedIngredients.length === 0;
 
   const totalCost = () => {
