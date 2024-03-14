@@ -1,4 +1,4 @@
-import Button from "../../components/button";
+import Button from "../../components/button"
 import { formatNumber } from "../../utils/helper";
 
 export default function OrderHeader({
