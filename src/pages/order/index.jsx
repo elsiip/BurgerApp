@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderBurgerDisplay from "./orderBurgerDisplay";
 import OrderHeader from "./orderHeader";
 import OrderIngredientsPicker from "./orderIngredientsPicker";
-
+import {Link, useLocation, useRoutes} from "react-router-dom";
 const allIngredients = [
   {
     id: "cheese",
@@ -43,6 +43,10 @@ const allIngredients = [
 
 export default function OrderPage() {
   const [selectedIngredients, selectedIngredientsSet] = useState([]);
+  const [isReachMax, isReachMaxSet] = useState(false);
+  const [isDone, isDoneSet] = useState(false);
+
+  const {search} = useLocation()
 
   function manageIngredients(type, id, idx) {
     if (type === "add") {
@@ -55,7 +59,26 @@ export default function OrderPage() {
       });
     }
   }
-  console.log(selectedIngredients);
+
+  useEffect(() => {
+    if(selectedIngredients.length >= 10) {
+      isReachMaxSet(true);
+    }
+  },[selectedIngredients])
+
+  useEffect(() => {
+    if(new URLSearchParams(search).get("done") === "true") {
+      isDoneSet(true);
+    }
+  },[search])
+
+  if(isDone) return (
+    <div>
+      <h1>Your order has been received</h1>
+      <Link to="/">Back to home</Link>
+    </div>
+  )
+
   return (
     <section>
       <OrderHeader
@@ -70,6 +93,7 @@ export default function OrderPage() {
       <OrderIngredientsPicker
         allIngredients={allIngredients}
         manageIngredients={(id) => manageIngredients("add", id)}
+        isReachMax={isReachMax}
       />
     </section>
   );
