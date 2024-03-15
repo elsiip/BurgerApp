@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import OrderBurgerDisplay from "./orderBurgerDisplay";
 import OrderHeader from "./orderHeader";
 import OrderIngredientsPicker from "./orderIngredientsPicker";
-import {Link, useLocation, useRoutes} from "react-router-dom";
+import { Link, useLocation, useRoutes } from "react-router-dom";
+import Navbar from "../../components/navbar";
+
 const allIngredients = [
   {
     id: "cheese",
@@ -46,7 +48,7 @@ export default function OrderPage() {
   const [isReachMax, isReachMaxSet] = useState(false);
   const [isDone, isDoneSet] = useState(false);
 
-  const {search} = useLocation()
+  const { search } = useLocation();
 
   function manageIngredients(type, id, idx) {
     if (type === "add") {
@@ -61,40 +63,46 @@ export default function OrderPage() {
   }
 
   useEffect(() => {
-    if(selectedIngredients.length >= 10) {
+    if (selectedIngredients.length >= 10) {
       isReachMaxSet(true);
     }
-  },[selectedIngredients])
+  }, [selectedIngredients]);
 
   useEffect(() => {
-    if(new URLSearchParams(search).get("done") === "true") {
+    if (new URLSearchParams(search).get("done") === "true") {
       isDoneSet(true);
     }
-  },[search])
+  }, [search]);
 
-  if(isDone) return (
-    <div>
-      <h1>Your order has been received</h1>
-      <Link to="/">Back to home</Link>
-    </div>
-  )
+  if (isDone)
+    return (
+      <div style={{ paddingTop: "20rem" }}>
+        <Navbar />
+        <div className="flex justify-center items-center h-full">
+          <div className="text-center">
+            <h1 className="font-bold">Your order has been received</h1>
+            <Link to="/">Back to home</Link>
+          </div>
+        </div>
+      </div>
+    );
+
+  function removeIngredient(idx) {
+    selectedIngredientsSet((prev) => {
+      const updatedIngredients = [...prev];
+      updatedIngredients.splice(idx, 1); // Hapus elemen pada index yang diberikan
+      return updatedIngredients;
+    });
+  }
 
   return (
-    <section>
-      <OrderHeader
-        allIngredients={allIngredients}
-        selectedIngredients={selectedIngredients}
-        onReset={() => selectedIngredientsSet([])}
-      />
-      <OrderBurgerDisplay
-        selectedIngredients={selectedIngredients}
-        removeIngredient={(idx) => manageIngredients("remove", undefined, idx)}
-      />
-      <OrderIngredientsPicker
-        allIngredients={allIngredients}
-        manageIngredients={(id) => manageIngredients("add", id)}
-        isReachMax={isReachMax}
-      />
-    </section>
+    <div style={{ paddingTop: "4rem" }}>
+      <Navbar />
+      <section>
+        <OrderHeader allIngredients={allIngredients} selectedIngredients={selectedIngredients} onReset={() => selectedIngredientsSet([])} />
+        <OrderBurgerDisplay selectedIngredients={selectedIngredients} removeIngredient={(idx) => manageIngredients("remove", undefined, idx)} />
+        <OrderIngredientsPicker allIngredients={allIngredients} manageIngredients={(id) => manageIngredients("add", id)} isReachMax={isReachMax} />
+      </section>
+    </div>
   );
 }
