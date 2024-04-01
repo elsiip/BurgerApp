@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { UseSelector } from "react-redux";
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/slices/auth.slice";
 
 export default function HomeBanner() {
-  const {user} = useSelector(state => state.auth)
+  const {authStore} = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
 
