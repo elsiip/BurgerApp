@@ -1,4 +1,23 @@
+import { useEffect } from "react";
+import { UseSelector } from "react-redux";
+import { setUserData } from "../../store/slices/auth.slice";
+
 export default function HomeBanner() {
+  const {user} = useSelector(state => state.auth)
+
+  const dispatch = useDispatch()
+
+  useEffect(() =>{
+    dispatch(setUserData({
+      displayName: "John Doe",
+      email: "john@example.com",
+      id: "1234",
+      isActive: true
+    }))
+  }, [])
+
+  console.log(authStore)
+
   return (
     <section className="bg-green-600">
       <div className="container mx-auto py-8 text-center flex flex-col gap-3">
