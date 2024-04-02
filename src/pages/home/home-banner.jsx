@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/slices/auth.slice";
+// import { setIngredientsData} from "../../store/slices/burgerIngredients.slice";
 
 export default function HomeBanner() {
   const authStore = useSelector(state => state.auth);
+  // const burgerIngredients = useSelector(state => state.burgerIngredients); 
 
   const dispatch = useDispatch()
 

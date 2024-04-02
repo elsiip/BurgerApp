@@ -99,7 +99,8 @@ export default function OrderPage() {
     <div style={{ paddingTop: "4rem" }}>
       <Navbar />
       <section>
-        <OrderHeader allIngredients={allIngredients} selectedIngredients={selectedIngredients} onReset={() => selectedIngredientsSet([])} />
+        {/* <OrderHeader allIngredients={allIngredients} selectedIngredients={selectedIngredients} onReset={() => selectedIngredientsSet([])} /> */}
+        <OrderHeader selectedIngredients={selectedIngredients} onReset={() => selectedIngredientsSet([])} />
         <OrderBurgerDisplay selectedIngredients={selectedIngredients} removeIngredient={(idx) => manageIngredients("remove", undefined, idx)} />
         <OrderIngredientsPicker allIngredients={allIngredients} manageIngredients={(id) => manageIngredients("add", id)} isReachMax={isReachMax} />
       </section>
